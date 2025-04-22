@@ -1,6 +1,7 @@
 #ifndef _MATRIX_HPP
 #include <iostream> 
 #include <stdexcept>
+#include <cmath>
 
 namespace Matrix {
 class SquareMat {
@@ -11,10 +12,16 @@ class SquareMat {
         SquareMat(int size);
         SquareMat(const SquareMat& matrix);
         ~SquareMat();
-        friend SquareMat operator+(const SquareMat& mat1, const SquareMat& mat2);
-        friend SquareMat operator-(const SquareMat& mat1, const SquareMat& mat2);
-
-};
+        SquareMat operator+(const SquareMat& mat1);
+        SquareMat operator-(const SquareMat& mat1);
+        SquareMat operator-();
+        SquareMat operator*(const SquareMat& mat1);
+        SquareMat operator*(double scalar);
+        friend SquareMat operator*(double scalar, const SquareMat& mat);
+        SquareMat operator%(const SquareMat& mat1);
+        SquareMat operator%(int scalar);
+        
+};  
 }
 #endif
 
