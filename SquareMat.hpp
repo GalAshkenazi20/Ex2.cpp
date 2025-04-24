@@ -42,6 +42,14 @@ namespace Matrix
         bool operator<=(const SquareMat &mat);
         bool operator>=(const SquareMat &mat);
         double operator!();
+        SquareMat &operator+=(const SquareMat &mat);
+        SquareMat &operator-=(const SquareMat &mat);
+        SquareMat &operator*=(const SquareMat &mat);
+        SquareMat &operator*=(double scalar);   
+        SquareMat &operator/=(double scalar);
+        SquareMat &operator%=(const SquareMat &mat); 
+        SquareMat &operator%=(int scalar); 
+        SquareMat& operator=(const SquareMat& other);
     };
 
 }

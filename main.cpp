@@ -5,6 +5,7 @@ int main()
 {
     SquareMat A(4);
     SquareMat B(2);
+    SquareMat c(2);
 
     A[0][0] = 2;
     A[0][1] = 1;
@@ -28,7 +29,19 @@ int main()
     B[0][1] = 6.0;
     B[1][0] = 7.0;
     B[1][1] = 8.0;
-
+    c[0][0] = 2;
+    c[0][1] = 2;
+    c[1][0] = 2;
+    c[1][1] = 2;
+    c /= 2;
+    SquareMat ss = ~B;
+    std::cout<<ss<<"\n";
+    std::cout<< c << "\n";
+    //  B += c;
+    //  B -= c;
+    // std::cout<< B << "\n";
+    B *= c;
+    std::cout<< B << "\n";
     // SquareMat C = A * B;
     // SquareMat D = 2 * A;
     // SquareMat E = B * 3;

@@ -63,7 +63,7 @@ namespace Matrix
         {
             for (int j = 0; j < size; j++)
             {
-                result.matrix[i][j] = mat1.matrix[i][j] + this->matrix[i][j];
+                result[i][j] = mat1[i][j] + matrix[i][j];
             }
         }
         return result;
@@ -277,16 +277,17 @@ namespace Matrix
     }
     SquareMat SquareMat::operator~()
     {
+        SquareMat result(size);
         for (int i = 0; i < size; i++)
         {
-            for (int j = i + 1; j < size; j++)
+            for (int j = 0; j < size; j++)
             {
-                double temp = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = temp;
+               // double temp = matrix[i][j];
+                result[i][j] = matrix[j][i];
+                //result[j][i] = temp;
             }
         }
-        return *this;
+        return result;
     }
     double *SquareMat::operator[](int i)
     {
@@ -422,6 +423,172 @@ namespace Matrix
     {
         return det(*this, size);
     }
+
+    SquareMat &SquareMat::operator+=(const SquareMat &mat)
+    {
+        if (size != mat.size)
+        {
+            throw std::invalid_argument("Matrix size do not match");
+        }
+
+        for (int i = 0; i < size; ++i)
+        {
+            for (int j = 0; j < size; ++j)
+            {
+                matrix[i][j] += mat[i][j];
+            }
+        }
+
+        return *this;
+    }
+    SquareMat &SquareMat::operator-=(const SquareMat &mat)
+    {
+        if (size != mat.size)
+        {
+            throw std::invalid_argument("Matrix size do not match");
+        }
+
+        for (int i = 0; i < size; ++i)
+        {
+            for (int j = 0; j < size; ++j)
+            {
+                matrix[i][j] -= mat[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+    SquareMat &SquareMat::operator*=(const SquareMat &mat)
+    {
+        if (mat.size != size)
+        {
+            throw std::invalid_argument("Matrix size do not match");
+        }
+
+        double **result = new double*[size];
+        for (int i = 0; i < size; i++)
+        {
+            result[i] = new double[size];
+            for (int j = 0; j < size; j++)
+            {
+                result[i][j] = 0;
+                double sum = 0;
+
+                for (int n = 0; n < size; n++)
+                {
+                    sum += this->matrix[i][n] * mat.matrix[n][j];
+                }
+                result[i][j] = sum;
+            }
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                matrix[i][j] = result[i][j];
+            }
+            delete[] result[i];
+        }
+        delete[] result;
+
+        return *this;
+    }
+
+    SquareMat &SquareMat::operator*=(double scalar)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                this->matrix[i][j] = this->matrix[i][j] * scalar;
+            }   
+        }
+        return  *this;
+    }
+
+    SquareMat &SquareMat::operator/=(double scalar)
+    {
+        if (scalar == 0)
+        {
+            throw std::logic_error("Cannot divide by 0\n");
+        }
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                this->matrix[i][j] = this->matrix[i][j] / scalar;
+            }   
+        }
+        return  *this;
+    }
+
+    SquareMat &SquareMat::operator%=(const SquareMat &mat)
+    {
+        if (size != mat.size)
+        {
+            throw std::invalid_argument("Size of Matrix do not match");
+        }
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (mat[i][j] == 0)
+                {
+                    throw std::logic_error("Cant mod 0!");
+                }
+            }   
+        }
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                this->matrix[i][j] = fmod(this->matrix[i][j], mat[i][j]);
+            }   
+        }
+        return *this;
+    }
+
+    SquareMat &SquareMat::operator%=(int scalar)
+    {
+        if (scalar <= 0)
+        {
+            throw std::logic_error("cant mod with this argument");
+        }
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                this->matrix[i][j] = fmod(this->matrix[i][j], scalar);
+            }   
+        }
+        return *this;
+    }
+
+    SquareMat& SquareMat::operator=(const SquareMat& other)
+{
+    if (this == &other)
+        return *this;
+
+    for (int i = 0; i < size; ++i)
+        delete[] matrix[i];
+    delete[] matrix;
+
+    size = other.size;
+    matrix = new double*[size];
+    for (int i = 0; i < size; ++i)
+    {
+        matrix[i] = new double[size];
+        for (int j = 0; j < size; ++j)
+        {
+            matrix[i][j] = other.matrix[i][j];
+        }
+    }
+
+    return *this;
+}
+
 
     std::ostream &operator<<(std::ostream &os, const SquareMat &mat)
     {
