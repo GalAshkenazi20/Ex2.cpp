@@ -1,3 +1,4 @@
+// Galashkena1@gmail.com
 #ifndef _MATRIX_HPP
 #define _MATRIX_HPP
 #include <iostream>
@@ -6,17 +7,22 @@
 
 namespace Matrix
 {
+    // This class is for square matrix. Not using STL things.
     class SquareMat
     {
     private:
-        double **matrix;
-        int size;
+        double **matrix; // matrix data
+        int size;        // size of matrix
 
     public:
+        // make new matrix with size
         SquareMat(int size);
+        // copy matrix
         SquareMat(const SquareMat &matrix);
+        // delete matrix memory(destructor)
         ~SquareMat();
-        int getSize() const;
+        int getSize() const; // get the size of matrix(helper)
+        // math operations
         SquareMat operator+(const SquareMat &mat1);
         SquareMat operator-(const SquareMat &mat1);
         SquareMat operator-();
@@ -45,11 +51,11 @@ namespace Matrix
         SquareMat &operator+=(const SquareMat &mat);
         SquareMat &operator-=(const SquareMat &mat);
         SquareMat &operator*=(const SquareMat &mat);
-        SquareMat &operator*=(double scalar);   
+        SquareMat &operator*=(double scalar);
         SquareMat &operator/=(double scalar);
-        SquareMat &operator%=(const SquareMat &mat); 
-        SquareMat &operator%=(int scalar); 
-        SquareMat& operator=(const SquareMat& other);
+        SquareMat &operator%=(const SquareMat &mat);
+        SquareMat &operator%=(int scalar);
+        SquareMat &operator=(const SquareMat &other);
     };
 
 }

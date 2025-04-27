@@ -1,3 +1,4 @@
+#Galashkena1@gmail.com
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -g
 VALFLAGS = --leak-check=full --show-leak-kinds=all --error-exitcode=99 --track-origins=yes --verbose --log-file=valgrind-out.txt
@@ -18,7 +19,7 @@ test: $(TEST_EXEC)
 
 $(TEST_EXEC): $(TEST_SRC)
 	$(CXX) $(CXXFLAGS) -o $(TEST_EXEC) $(TEST_SRC)
-
+#Just for good looking
 run-tests: test
 	@echo "🔍 Running tests..."
 	@./$(TEST_EXEC) || { echo '❌ Tests failed!'; exit 1; }
