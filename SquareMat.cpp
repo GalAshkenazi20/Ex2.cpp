@@ -353,17 +353,17 @@ namespace Matrix
     }
     bool SquareMat::operator>(const SquareMat &mat)
     {
-        return !(*this < mat);
+        return !(*this < mat || *this == mat);
     }
 
     bool SquareMat::operator<=(const SquareMat &mat)
     {
-        return !(*this > mat && *this == mat);
+        return (*this < mat || *this == mat);
     }
 
     bool SquareMat::operator>=(const SquareMat &mat)
     {
-        return (*this > mat && *this == mat);
+        return (*this > mat || *this == mat);
     }
     SquareMat helperToDet(const SquareMat &mat, int n, int row_to_remove, int col_to_remove)
     {
